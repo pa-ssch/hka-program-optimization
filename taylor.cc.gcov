@@ -1,0 +1,55 @@
+        -:    0:Source:taylor.cc
+        -:    0:Graph:taylor.gcno
+        -:    0:Data:taylor.gcda
+        -:    0:Runs:1
+        -:    1:#include <iostream>
+        -:    2:#include <cmath>
+        -:    3:
+  9990999:    4:double power(double x, size_t n) {
+  9990999:    5:  return pow(x,n);
+        -:    6:}
+        -:    7:
+  9990999:    8:double faculty(double n) {
+  9990999:    9:  return tgamma(n + 1);
+        -:   10:}
+        -:   11:
+    10001:   12:double e_hoch_x(double x, const size_t ITERATIONEN = 1000) {
+    10001:   13:  double e_hoch_x = 1.0;
+        -:   14:
+ 10001000:   15:  for (size_t n = 1; n < ITERATIONEN; n++) {
+  9990999:   16:    e_hoch_x += power(x, n) / faculty(n);
+        -:   17:  }
+        -:   18:
+    10001:   19:  return e_hoch_x;
+        -:   20:}
+        -:   21:
+        -:   22:// Ihre optimierte Version bei der auf eine lokale Variable in jedem 
+        -:   23:// Schleifendurchlauf x/n hinzumulitpliziert wird, um
+        -:   24:// x^n / n! iterativ zu berechnen, statt power und faculty aufzurufen
+        -:   25:// es werden dadurch wiederholte Berechnungen vermieden
+        -:   26:// 
+        -:   27:// zum Aufruf in der main-Methode vertauschen sie die Namen dieser Funktion
+        -:   28:// mit der obigen Variante
+    #####:   29:double e_hoch_x_1(double x, const size_t ITERATIONEN = 1000) {
+    #####:   30:  double e_hoch_x = 1.0;
+    #####:   31:  double quotient = 1.0;
+    #####:   32:  for (size_t n = 1; n < ITERATIONEN; n++) {
+        -:   33:     // Ihre Optimierung
+        -:   34:  }
+        -:   35:
+    #####:   36:  return e_hoch_x;
+        -:   37:}
+        -:   38:
+        1:   39:int main(void) {
+        -:   40:  // ein Testaufruf
+        1:   41:  std::cout << e_hoch_x(1.0) << std::endl; // Die Eulersche Zahl e sollte ausgegeben werden
+        -:   42:
+        -:   43:  // ab hier viele Aufrufe durchführen
+        1:   44:  double e = 0.0;
+    10001:   45:  for (size_t i = 0; i < 10000; i++) {
+    10000:   46:    e += (i % 2 == 0 ? -1 : 1) * e_hoch_x(1.0);
+        -:   47:  }
+        -:   48:
+        1:   49:  std::cout << e << std::endl; // es sollte 0 herauskommen
+        1:   50:  return 1;
+        -:   51:}
